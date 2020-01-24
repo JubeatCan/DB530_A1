@@ -26,7 +26,16 @@ MyDB_PageHandle MyDB_BufferManager :: getPinnedPage () {
 void MyDB_BufferManager :: unpin (MyDB_PageHandle unpinMe) {
 }
 
-MyDB_BufferManager :: MyDB_BufferManager (size_t, size_t, string) {
+MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, string tempFile) {
+    this->pageSize = pageSize;
+    this->numPages = numPages;
+    this->tempFile = tempFile;
+
+    pageSpace.resize(this->numPages);
+    for (size_t i = 0; i < numPages; i++) {
+        pageSpace[i] = new char[this->pageSize];
+    }
+
 }
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {

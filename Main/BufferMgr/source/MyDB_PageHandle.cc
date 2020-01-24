@@ -15,5 +15,9 @@ void MyDB_PageHandleBase :: wroteBytes () {
 MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
 }
 
+MyDB_PageHandleBase::MyDB_PageHandleBase(pagePtr handlePagePtr) {
+
+}
+
 #endif
 

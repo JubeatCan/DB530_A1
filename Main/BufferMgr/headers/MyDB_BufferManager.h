@@ -4,6 +4,10 @@
 
 #include "MyDB_PageHandle.h"
 #include "MyDB_Table.h"
+#include "MyDB_Page.h"
+#include "MyDB_LRUManager.h"
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -52,6 +56,14 @@ public:
 private:
 
 	// YOUR STUFF HERE
+
+	// Initialize stuffs
+	size_t pageSize;
+	size_t numPages;
+	string tempFile;
+
+	vector<char *> pageSpace;
+	unordered_map<char *, bool> isAvailable;
 
 };
 
