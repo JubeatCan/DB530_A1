@@ -15,13 +15,31 @@ public:
     MyDB_Page();
     ~MyDB_Page();
     string getPageId();
+
     void increaseCounter();
+
     void decreaseCounter();
+
+    int getNumberOfHandler();
+
+    void getPinStatus();
+
+    void setPinStatus(bool);
+
     bool getDirty();
+
     void setDirty(bool);
+
     bool getAnonymous();
-    bool getBuffered();
-    void setBuffered();
+
+    void setAnonymous(bool);
+
+    char * getBuffer();
+
+    void setBuffer(char *);
+
+    string getFileLoc();
+
 
 private:
     string pageId;
@@ -29,7 +47,8 @@ private:
     bool dirty;
     bool pin;
     bool anonymous;
-    bool buffered;
+    // bufferLocation, if not null-ptr -> already in buffer
+    char * bufferLoc;
     string fileLoc;
 };
 
