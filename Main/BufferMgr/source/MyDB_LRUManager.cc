@@ -15,7 +15,7 @@ void MyDB_LRUManager::update(string PageID) {
 
 }
 
-void MyDB_LRUManager::evict() {
+void MyDB_LRUManager::evictSinglePage() {
 
 }
 

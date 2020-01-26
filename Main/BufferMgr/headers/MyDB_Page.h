@@ -53,6 +53,9 @@ private:
     char * bufferLoc;
     string fileLoc;
 
+    bool getBuffered();
+
+    void setBuffered();
 };
 
 #endif //PAGE_H

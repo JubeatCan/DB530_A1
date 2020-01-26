@@ -35,12 +35,40 @@ bool MyDB_Page::getAnonymous() {
     return false;
 }
 
+int MyDB_Page::getNumberOfHandler() {
+    return 0;
+}
+
+void MyDB_Page::getPinStatus() {
+
+}
+
 bool MyDB_Page::getBuffered() {
     return false;
 }
 
 void MyDB_Page::setBuffered() {
 
+}
+
+void MyDB_Page::setPinStatus(bool) {
+
+}
+
+void MyDB_Page::setAnonymous(bool) {
+
+}
+
+char *MyDB_Page::getBuffer() {
+    return nullptr;
+}
+
+void MyDB_Page::setBuffer(char *) {
+
+}
+
+string MyDB_Page::getFileLoc() {
+    return std::string();
 }
 
 #endif
