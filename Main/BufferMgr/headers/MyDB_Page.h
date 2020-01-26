@@ -30,7 +30,7 @@ private:
     bool pin;
     bool anonymous;
     bool buffered;
-    string fileLoc;
+    pair<string, int> fileLoc;
 };
 
 #endif //PAGE_H
