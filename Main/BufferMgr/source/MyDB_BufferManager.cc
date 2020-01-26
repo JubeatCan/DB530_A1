@@ -36,7 +36,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
     string pageId;
     if (availableAnonyId.empty()) {
-        pageId = "_" + anonyTotalCount;
+        pageId = "_" + to_string(anonyTotalCount);
         anonyTotalCount++;
     } else {
         pageId = "_" + availableAnonyId[0];
@@ -46,8 +46,8 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
     char * pageBufferPosition;
     if (idToPage.find(pageId) == idToPage.end()) {
         pageBufferPosition = nextAvailablePostion();
-        // pin->false anony->false
-        pagePtr = make_shared<MyDB_Page>(tempFile, pageBufferPosition, pageId, false, true);
+        // pin->false anony->true
+        pagePtr = make_shared<MyDB_Page>(this, tempFile, pageBufferPosition, pageId, false, true);
         idToPage[pageId] = pagePtr;
         // readFile from disk
         pagePtr->readFile();
@@ -108,9 +108,6 @@ MyDB_BufferManager :: ~MyDB_BufferManager () {
     free(bufferPoll);
 }
 
-char *MyDB_BufferManager::bufferLocForSinglePage() {
-    return nullptr;
-}
 
 char *MyDB_BufferManager::nextAvailablePostion() {
     char * nextPosition;
