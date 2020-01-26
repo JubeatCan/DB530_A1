@@ -57,8 +57,8 @@ public:
 	~MyDB_BufferManager ();
 
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS
-	// allocate buffer to single page, poll() from buffer queue
-	char * bufferLocForSinglePage();
+//	// allocate buffer to single page, poll() from buffer queue
+//	char * bufferLocForSinglePage();
 
 	// update LRU cache when you call get(), return the pagePtr should be evicted
     void updateLRUCache(pageId, pagePtr);

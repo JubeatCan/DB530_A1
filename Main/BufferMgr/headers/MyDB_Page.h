@@ -4,6 +4,7 @@
 #include <string>
 #include <memory>
 #include <MyDB_Table.h>
+#include "MyDB_BufferManager.h"
 
 using namespace std;
 
@@ -13,7 +14,7 @@ typedef shared_ptr<MyDB_Page> pagePtr;
 class MyDB_Page {
 public:
 
-    MyDB_Page(string &, char *, string &, bool, bool);
+    MyDB_Page(const MyDB_BufferManager *, string &, char *, string, bool, bool);
     ~MyDB_Page();
     string getPageId();
 
@@ -33,6 +34,8 @@ public:
 
     bool getAnonymous();
 
+    void setAnonymous(bool);
+
     char * getBuffer();
 
     void setBuffer(char *);
@@ -40,6 +43,10 @@ public:
     string getFileLoc();
 
     void readFile();
+
+    // write back to disk
+    void writeFile();
+
 
 
 private:

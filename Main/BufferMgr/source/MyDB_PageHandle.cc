@@ -10,13 +10,24 @@ void *MyDB_PageHandleBase :: getBytes () {
 }
 
 void MyDB_PageHandleBase :: wroteBytes () {
+
+}
+
+void MyDB_PageHandleBase :: pinPage() {
+    handlePagePtr->setPinStatus(true);
+}
+
+void MyDB_PageHandleBase :: unpinPage() {
+    handlePagePtr->setPinStatus(false);
 }
 
 MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
+    handlePagePtr->decreaseCounter();
 }
 
 MyDB_PageHandleBase::MyDB_PageHandleBase(pagePtr handlePagePtr) {
-
+    handlePagePtr = handlePagePtr;
+    handlePagePtr->increaseCounter();
 }
 
 #endif

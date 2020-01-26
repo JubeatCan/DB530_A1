@@ -15,7 +15,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
     if (idToPage.find(pageId) == idToPage.end()) {
         pageBufferPosition = nextAvailablePostion();
         // pin->false anony->false
-        pagePtr = make_shared<MyDB_Page>(tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false);
+        pagePtr = make_shared<MyDB_Page>(this, tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false);
         idToPage[pageId] = pagePtr;
         // readFile from disk
         pagePtr->readFile();
@@ -28,7 +28,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
             pagePtr->setBuffer(pageBufferPosition);
         }
     }
-    updateLRUCache(pageId, pagePtr);
+    lruManager->update(pageId, pagePtr);
     MyDB_PageHandle pageHandle = make_shared<MyDB_PageHandleBase>(pagePtr);
 	return pageHandle;
 }
@@ -60,7 +60,8 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
             pagePtr->setBuffer(pageBufferPosition);
         }
     }
-    updateLRUCache(pageId, pagePtr);
+    lruManager->update(pageId, pagePtr);
+//    updateLRUCache(pageId, pagePtr);
     MyDB_PageHandle pageHandle = make_shared<MyDB_PageHandleBase>(pagePtr);
     return pageHandle;
 
@@ -79,6 +80,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPinnedPage () {
 }
 
 void MyDB_BufferManager :: unpin (MyDB_PageHandle unpinMe) {
+    unpinMe->unpinPage();
 }
 
 MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, string tempFile) {
@@ -108,6 +110,21 @@ MyDB_BufferManager :: ~MyDB_BufferManager () {
 
 char *MyDB_BufferManager::bufferLocForSinglePage() {
     return nullptr;
+}
+
+char *MyDB_BufferManager::nextAvailablePostion() {
+    char * nextPosition;
+    if (!availableBufferLoc.empty()) {
+         nextPosition = availableBufferLoc.front();
+         availableBufferLoc.pop();
+    }
+    else {
+        pagePtr nextEvictPage = lruManager->nextAvailablePage();
+        nextPosition = nextEvictPage->getBuffer();
+        nextEvictPage->setBuffer(nullptr);
+        nextEvictPage->writeFile();
+    }
+    return nextPosition;
 }
 
 //pagePtr MyDB_BufferManager::updateLRUCache(pagePtr) {
