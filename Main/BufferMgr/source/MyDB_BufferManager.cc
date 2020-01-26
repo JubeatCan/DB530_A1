@@ -9,7 +9,28 @@
 using namespace std;
 
 MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
-	return nullptr;		
+    string pageId;
+    pagePtr pagePtr;
+    char * pagePosition;
+    if (idToPage.find(pageId) == idToPage.end()) {
+        pagePosition = nextAvailablePage();
+        pagePtr = make_shared<MyDB_Page>(tablePtr, i, pagePosition, pageId);
+        idToPage[pageId] = pagePtr;
+        // readFile from disk
+        pagePtr->readFile();
+        pagePtr->setBuffer(pagePosition);
+    }
+    else {
+        pagePtr = idToPage.find(pageId)->second;
+        // if buffered before
+        if (pagePtr->getBuffer() == nullptr) {
+            pagePosition = nextAvailablePage();
+            pagePtr->setBuffer(pagePosition);
+        }
+    }
+    updateLRUCache(pageId, pagePtr);
+    MyDB_PageHandle pageHandle = make_shared<MyDB_PageHandleBase>(pagePtr);
+	return pageHandle;
 }
 
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
