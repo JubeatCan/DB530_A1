@@ -72,7 +72,7 @@ private:
 	size_t pageSize;
 	size_t numPages;
 	string tempFile;
-ª
+
 	//vector<char *> pageSpace;
 	char * bufferPoll;
 
