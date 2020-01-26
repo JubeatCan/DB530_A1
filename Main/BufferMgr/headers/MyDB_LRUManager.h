@@ -22,7 +22,7 @@ public:
 
     void update(string PageID);
 
-    void evict();
+    void evictSinglePage();
 
 private:
 
