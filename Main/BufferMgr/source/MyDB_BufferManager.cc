@@ -7,7 +7,7 @@
 
 using namespace std;
 
-MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr, long) {
+MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
 	return nullptr;		
 }
 
@@ -15,12 +15,16 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
 	return nullptr;		
 }
 
-MyDB_PageHandle MyDB_BufferManager :: getPinnedPage (MyDB_TablePtr, long) {
-	return nullptr;		
+MyDB_PageHandle MyDB_BufferManager :: getPinnedPage (MyDB_TablePtr tablePtr, long i) {
+    MyDB_PageHandle pageHandle = getPage(tablePtr, i);
+    pageHandle->pinPage();
+	return pageHandle;
 }
 
 MyDB_PageHandle MyDB_BufferManager :: getPinnedPage () {
-	return nullptr;		
+    MyDB_PageHandle pageHandle = getPage();
+    pageHandle->pinPage();
+	return pageHandle;
 }
 
 void MyDB_BufferManager :: unpin (MyDB_PageHandle unpinMe) {
