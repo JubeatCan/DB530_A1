@@ -3,17 +3,22 @@
 
 #include <string>
 #include <memory>
+#include <MyDB_Table.h>
+
 
 using namespace std;
 
 class MyDB_Page;
 typedef shared_ptr<MyDB_Page> pagePtr;
+typedef pair<MyDB_TablePtr, long> pageId;
 
 class MyDB_Page {
 public:
 
-    MyDB_Page();
+    MyDB_Page(char * bufferLoc, string fileLoc, long i);
+
     ~MyDB_Page();
+
     string getPageId();
 
     void increaseCounter();
@@ -42,7 +47,7 @@ public:
 
 
 private:
-    string pageId;
+    pageId pageId;
     int handlerCounter;
     bool dirty;
     bool pin;
@@ -50,6 +55,7 @@ private:
     // bufferLocation, if not null-ptr -> already in buffer
     char * bufferLoc;
     string fileLoc;
+
 };
 
 #endif //PAGE_H

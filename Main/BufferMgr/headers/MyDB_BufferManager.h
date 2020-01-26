@@ -80,6 +80,12 @@ private:
     //available bufferAddress, push all available buffer at the beginning
     queue<char *> availableBufferLoc;
 
+    //map from pageId to page pointer
+    unordered_map<pageId, pagePtr> idToPage;
+
+    long anonyTotalCount;
+
+    vector<long> availableAnonyId;
 
 
 };
