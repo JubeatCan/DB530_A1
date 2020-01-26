@@ -3,72 +3,71 @@
 
 #include "MyDB_Page.h"
 
-MyDB_Page::MyDB_Page() {
-
-}
-
 MyDB_Page::~MyDB_Page() {
 
 }
 
 string MyDB_Page::getPageId() {
-    return std::string();
+    return this -> pageId;
 }
 
 void MyDB_Page::increaseCounter() {
-
+    this -> handlerCounter += 1;
 }
 
 void MyDB_Page::decreaseCounter() {
-
+    this -> handlerCounter -= 1;
 }
 
 bool MyDB_Page::getDirty() {
-    return false;
+    return this -> dirty;
 }
 
-void MyDB_Page::setDirty(bool) {
-
+void MyDB_Page::setDirty(bool newDirty) {
+    this -> dirty = newDirty;
 }
 
 bool MyDB_Page::getAnonymous() {
-    return false;
+    return this -> anonymous;
 }
 
 int MyDB_Page::getNumberOfHandler() {
-    return 0;
+    return this -> handlerCounter;
 }
 
 bool MyDB_Page::getPinStatus() {
-
+    return this -> pin;
 }
 
-bool MyDB_Page::getBuffered() {
-    return false;
-}
-
-void MyDB_Page::setBuffered() {
-
-}
-
-void MyDB_Page::setPinStatus(bool) {
-
-}
-
-void MyDB_Page::setAnonymous(bool) {
-
+void MyDB_Page::setPinStatus(bool newPin) {
+    this -> pin = newPin;
 }
 
 char *MyDB_Page::getBuffer() {
-    return nullptr;
+    return bufferLoc;
 }
 
-void MyDB_Page::setBuffer(char *) {
-
+void MyDB_Page::setBuffer(char * newBuffer) {
+    bufferLoc = newBuffer;
 }
 
 string MyDB_Page::getFileLoc() {
-    return std::string();
+    return this -> fileLoc;
+}
+
+MyDB_Page::MyDB_Page(string& fileLoc, char * ramLoc, string& pageId, bool pin, bool anonymous) {
+    this->fileLoc = fileLoc;
+    this->bufferLoc = ramLoc;
+    this->pageId = pageId;
+    this->pin = pin;
+    this->anonymous = anonymous;
+
+    handlerCounter = 0;
+    dirty = false;
+}
+
+void MyDB_Page::readFile() {
+    
 }
 
 #endif

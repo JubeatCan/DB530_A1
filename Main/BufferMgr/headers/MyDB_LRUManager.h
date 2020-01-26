@@ -22,7 +22,7 @@ public:
 
     void update(string, pagePtr);
 
-    void evictSinglePage(string);
+    void evictSinglePage(const string&);
 
     pagePtr nextAvailablePage();
 

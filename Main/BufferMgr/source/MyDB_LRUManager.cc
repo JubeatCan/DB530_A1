@@ -35,7 +35,7 @@ void MyDB_LRUManager::update(string pageId, pagePtr pagePointer) {
     }
 }
 
-void MyDB_LRUManager::evictSinglePage(string pageId) {
+void MyDB_LRUManager::evictSinglePage(const string& pageId) {
     if (pageId_cacheIt.find(pageId) == pageId_cacheIt.end()) {
         perror("Cannot find the page to evict.");
     } else {

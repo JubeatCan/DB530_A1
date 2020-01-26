@@ -13,7 +13,7 @@ typedef shared_ptr<MyDB_Page> pagePtr;
 class MyDB_Page {
 public:
 
-    MyDB_Page(string &, char *, string, bool, bool);
+    MyDB_Page(string &, char *, string &, bool, bool);
     ~MyDB_Page();
     string getPageId();
 
@@ -32,8 +32,6 @@ public:
     void setDirty(bool);
 
     bool getAnonymous();
-
-    void setAnonymous(bool);
 
     char * getBuffer();
 
