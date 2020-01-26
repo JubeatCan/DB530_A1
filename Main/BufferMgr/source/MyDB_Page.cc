@@ -55,7 +55,7 @@ string MyDB_Page::getFileLoc() {
     return this -> fileLoc;
 }
 
-MyDB_Page::MyDB_Page(string& fileLoc, char * ramLoc, string& pageId, bool pin, bool anonymous) {
+MyDB_Page::MyDB_Page(const MyDB_BufferManager* bm, string& fileLoc, char * ramLoc, string& pageId, bool pin, bool anonymous) {
     this->fileLoc = fileLoc;
     this->bufferLoc = ramLoc;
     this->pageId = pageId;
@@ -67,7 +67,10 @@ MyDB_Page::MyDB_Page(string& fileLoc, char * ramLoc, string& pageId, bool pin, b
 }
 
 void MyDB_Page::readFile() {
-    
+//    int fileDescriptor;
+//    if (!anonymous) {
+//        fileDescriptor = open();
+//    }
 }
 
 #endif

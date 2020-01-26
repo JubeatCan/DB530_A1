@@ -14,7 +14,7 @@ typedef shared_ptr<MyDB_Page> pagePtr;
 class MyDB_Page {
 public:
 
-    MyDB_Page(const MyDB_BufferManager *, string &, char *, string, bool, bool);
+    MyDB_Page(const MyDB_BufferManager *, string &, char *, string &, bool, bool);
     ~MyDB_Page();
     string getPageId();
 
@@ -50,6 +50,7 @@ public:
 
 
 private:
+
     string pageId;
     int handlerCounter;
     bool dirty;
@@ -59,6 +60,7 @@ private:
     // bufferLocation, if not null-ptr -> already in buffer
     char * bufferLoc;
     string fileLoc;
+
 
 };
 
