@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <queue>
+#include <unordered_map>
 
 using namespace std;
 
@@ -81,7 +82,7 @@ private:
     queue<char *> availableBufferLoc;
 
     //map from pageId to page pointer
-    unordered_map<pageId, pagePtr> idToPage;
+    unordered_map<string, pagePtr> idToPage;
 
     long anonyTotalCount;
 

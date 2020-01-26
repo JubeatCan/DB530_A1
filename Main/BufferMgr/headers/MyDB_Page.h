@@ -9,7 +9,6 @@ using namespace std;
 
 class MyDB_Page;
 typedef shared_ptr<MyDB_Page> pagePtr;
-typedef pair<MyDB_TablePtr, long> pageId;
 
 class MyDB_Page {
 public:
@@ -44,7 +43,7 @@ public:
 
 
 private:
-    pageId pageId;
+    string pageId;
     int handlerCounter;
     bool dirty;
     bool pin;

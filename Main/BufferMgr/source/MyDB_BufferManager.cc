@@ -31,10 +31,8 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
     this->numPages = numPages;
     this->tempFile = tempFile;
 
-    pageSpace.resize(this->numPages);
-    for (size_t i = 0; i < numPages; i++) {
-        pageSpace[i] = new char[this->pageSize];
-    }
+    bufferPoll = (char *) malloc((numPages * pageSize) * sizeof(char));
+
 
 }
 
