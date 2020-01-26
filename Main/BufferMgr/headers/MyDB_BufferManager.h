@@ -8,6 +8,7 @@
 #include "MyDB_LRUManager.h"
 #include <string>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
@@ -51,7 +52,17 @@ public:
 	// and any temporary files need to be deleted
 	~MyDB_BufferManager ();
 
-	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS 
+	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS
+	// allocate buffer to single page, poll() from buffer queue
+	char * bufferLocForSinglePage();
+
+	// update LRU cache when you call get(), return the pagePtr should be evicted
+    pagePtr updateLRUCache(pagePtr);
+
+    // update the available buffer queue, if free -> push available loc to queue
+    void updateAvailableBufferLoc();
+
+
 
 private:
 
@@ -61,9 +72,21 @@ private:
 	size_t pageSize;
 	size_t numPages;
 	string tempFile;
+ª
+	//vector<char *> pageSpace;
+	char * bufferPoll;
 
-	vector<char *> pageSpace;
-	unordered_map<char *, bool> isAvailable;
+	//unordered_map<char *, bool> isAvailable;
+    //available bufferAddress, push all available buffer at the beginning
+    queue<char *> availableBufferLoc;
+
+    //map from pageId to page pointer
+    unordered_map<pageId, pagePtr> idToPage;
+
+    long anonyTotalCount;
+
+    vector<long> availableAnonyId;
+
 
 };
 
