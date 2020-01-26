@@ -39,7 +39,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
         pageId = "_" + to_string(anonyTotalCount);
         anonyTotalCount++;
     } else {
-        pageId = "_" + availableAnonyId[0];
+        pageId = "_" + to_string(availableAnonyId[0]);
     }
 
     pagePtr pagePtr;
