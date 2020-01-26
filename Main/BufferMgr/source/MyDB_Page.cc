@@ -39,7 +39,7 @@ int MyDB_Page::getNumberOfHandler() {
     return 0;
 }
 
-void MyDB_Page::getPinStatus() {
+bool MyDB_Page::getPinStatus() {
 
 }
 
