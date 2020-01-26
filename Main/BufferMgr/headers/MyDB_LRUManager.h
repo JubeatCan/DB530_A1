@@ -20,7 +20,7 @@ public:
 
     ~MyDB_LRUManager();
 
-    void update(string PageID);
+    void update(string PageId);
 
     void evictSinglePage();
 

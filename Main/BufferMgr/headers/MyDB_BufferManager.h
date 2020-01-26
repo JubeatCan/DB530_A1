@@ -63,7 +63,8 @@ public:
     // update the available buffer queue, if free -> push available loc to queue
     void updateAvailableBufferLoc();
 
-
+    // Write dirty page back when buffer manager is destroyed.
+    void safeExit();
 
 private:
 
@@ -87,6 +88,8 @@ private:
     long anonyTotalCount;
 
     vector<long> availableAnonyId;
+
+    LRUManager lruManager;
 
 
 };

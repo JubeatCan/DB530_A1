@@ -33,12 +33,40 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
 
     bufferPoll = (char *) malloc((numPages * pageSize) * sizeof(char));
 
+    if (!bufferPoll) {
+        perror("Failed to allocate memory.");
+        abort();
+    }
+
+    for (int i = 0; i < numPages; i++) {
+        this -> availableBufferLoc.push(bufferPoll + i * pageSize);
+    }
+
+    this -> anonyTotalCount = 0;
+    lruManager = make_shared<MyDB_LRUManager>();
 
 }
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
+    free(bufferPoll);
 }
-	
+
+char *MyDB_BufferManager::bufferLocForSinglePage() {
+    return nullptr;
+}
+
+pagePtr MyDB_BufferManager::updateLRUCache(pagePtr) {
+    return pagePtr();
+}
+
+void MyDB_BufferManager::updateAvailableBufferLoc() {
+
+}
+
+void MyDB_BufferManager::safeExit() {
+
+}
+
 #endif
 
 
