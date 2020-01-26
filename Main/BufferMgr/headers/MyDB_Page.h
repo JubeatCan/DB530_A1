@@ -23,7 +23,7 @@ public:
 
     int getNumberOfHandler();
 
-    void getPinStatus();
+    bool getPinStatus();
 
     void setPinStatus(bool);
 

@@ -16,18 +16,21 @@ typedef shared_ptr<MyDB_LRUManager> LRUManager;
 class MyDB_LRUManager {
 public:
 
-    MyDB_LRUManager();
+    MyDB_LRUManager(int numPages);
 
     ~MyDB_LRUManager();
 
-    void update(string PageId);
+    void update(string, pagePtr);
 
-    void evictSinglePage();
+    void evictSinglePage(string);
+
+    pagePtr nextAvailablePage();
 
 private:
 
     list<pair<string, pagePtr>> LRUCache;
     unordered_map<string, list<pair<string, pagePtr>> :: iterator> pageId_cacheIt;
+    int capacity;
 
 };
 

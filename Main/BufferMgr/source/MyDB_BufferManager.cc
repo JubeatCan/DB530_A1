@@ -4,6 +4,7 @@
 
 #include "MyDB_BufferManager.h"
 #include <string>
+#include <utility>
 
 using namespace std;
 
@@ -33,7 +34,7 @@ void MyDB_BufferManager :: unpin (MyDB_PageHandle unpinMe) {
 MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, string tempFile) {
     this->pageSize = pageSize;
     this->numPages = numPages;
-    this->tempFile = tempFile;
+    this->tempFile = std::move(tempFile);
 
     bufferPoll = (char *) malloc((numPages * pageSize) * sizeof(char));
 
@@ -47,7 +48,7 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
     }
 
     this -> anonyTotalCount = 0;
-    lruManager = make_shared<MyDB_LRUManager>();
+    lruManager = make_shared<MyDB_LRUManager>(numPages);
 
 }
 
