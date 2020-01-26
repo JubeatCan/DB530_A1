@@ -43,7 +43,7 @@ public:
 	void unpin (MyDB_PageHandle unpinMe);
 
 	// find next available position
-	char * nextAvailablePage ();
+	char * nextAvailablePostion() ;
 
 	// creates an LRU buffer manager... params are as follows:
 	// 1) the size of each page is pageSize 

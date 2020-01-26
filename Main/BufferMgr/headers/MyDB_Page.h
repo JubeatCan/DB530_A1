@@ -13,7 +13,7 @@ typedef shared_ptr<MyDB_Page> pagePtr;
 class MyDB_Page {
 public:
 
-    MyDB_Page(MyDB_TablePtr, long, char *, string);
+    MyDB_Page(string &, char *, string, bool, bool);
     ~MyDB_Page();
     string getPageId();
 
@@ -50,14 +50,11 @@ private:
     bool dirty;
     bool pin;
     bool anonymous;
-    bool buffered;
+    //bool buffered;
     // bufferLocation, if not null-ptr -> already in buffer
     char * bufferLoc;
     string fileLoc;
 
-    bool getBuffered();
-
-    void setBuffered();
 };
 
 #endif //PAGE_H

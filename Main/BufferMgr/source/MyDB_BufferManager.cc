@@ -9,23 +9,23 @@
 using namespace std;
 
 MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
-    string pageId;
+    string pageId = tablePtr->getName() + "_" + to_string(i);
     pagePtr pagePtr;
-    char * pagePosition;
+    char * pageBufferPosition;
     if (idToPage.find(pageId) == idToPage.end()) {
-        pagePosition = nextAvailablePage();
-        pagePtr = make_shared<MyDB_Page>(tablePtr, i, pagePosition, pageId);
+        pageBufferPosition = nextAvailablePostion();
+        // pin->false anony->false
+        pagePtr = make_shared<MyDB_Page>(tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false);
         idToPage[pageId] = pagePtr;
         // readFile from disk
         pagePtr->readFile();
-        pagePtr->setBuffer(pagePosition);
     }
     else {
         pagePtr = idToPage.find(pageId)->second;
         // if buffered before
         if (pagePtr->getBuffer() == nullptr) {
-            pagePosition = nextAvailablePage();
-            pagePtr->setBuffer(pagePosition);
+            pageBufferPosition = nextAvailablePostion();
+            pagePtr->setBuffer(pageBufferPosition);
         }
     }
     updateLRUCache(pageId, pagePtr);
@@ -34,7 +34,36 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
 }
 
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
-	return nullptr;		
+    string pageId;
+    if (availableAnonyId.empty()) {
+        pageId = "_" + anonyTotalCount;
+        anonyTotalCount++;
+    } else {
+        pageId = "_" + availableAnonyId[0];
+    }
+
+    pagePtr pagePtr;
+    char * pageBufferPosition;
+    if (idToPage.find(pageId) == idToPage.end()) {
+        pageBufferPosition = nextAvailablePostion();
+        // pin->false anony->false
+        pagePtr = make_shared<MyDB_Page>(tempFile, pageBufferPosition, pageId, false, true);
+        idToPage[pageId] = pagePtr;
+        // readFile from disk
+        pagePtr->readFile();
+    }
+    else {
+        pagePtr = idToPage.find(pageId)->second;
+        // if buffered before
+        if (pagePtr->getBuffer() == nullptr) {
+            pageBufferPosition = nextAvailablePostion();
+            pagePtr->setBuffer(pageBufferPosition);
+        }
+    }
+    updateLRUCache(pageId, pagePtr);
+    MyDB_PageHandle pageHandle = make_shared<MyDB_PageHandleBase>(pagePtr);
+    return pageHandle;
+
 }
 
 MyDB_PageHandle MyDB_BufferManager :: getPinnedPage (MyDB_TablePtr tablePtr, long i) {
@@ -81,9 +110,9 @@ char *MyDB_BufferManager::bufferLocForSinglePage() {
     return nullptr;
 }
 
-pagePtr MyDB_BufferManager::updateLRUCache(pagePtr) {
-    return pagePtr();
-}
+//pagePtr MyDB_BufferManager::updateLRUCache(pagePtr) {
+//    return pagePtr();
+//}
 
 void MyDB_BufferManager::updateAvailableBufferLoc() {
 
