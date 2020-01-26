@@ -52,6 +52,7 @@ private:
     bool dirty;
     bool pin;
     bool anonymous;
+
     // bufferLocation, if not null-ptr -> already in buffer
     char * bufferLoc;
     string fileLoc;
