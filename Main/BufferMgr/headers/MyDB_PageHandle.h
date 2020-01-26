@@ -37,6 +37,16 @@ public:
 	// FEEL FREE TO ADD ADDITIONAL PUBLIC METHODS
 	explicit MyDB_PageHandleBase(pagePtr handlePagePtr);
 
+	// pin page
+	void pinPage();
+
+	// unpin page
+	void unpinPage();
+
+
+
+
+
 private:
 
 	// YOUR CODE HERE

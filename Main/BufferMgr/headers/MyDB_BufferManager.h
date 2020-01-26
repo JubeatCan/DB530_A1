@@ -42,6 +42,9 @@ public:
 	// un-pins the specified page
 	void unpin (MyDB_PageHandle unpinMe);
 
+	// find next available position
+	char * nextAvailablePage ();
+
 	// creates an LRU buffer manager... params are as follows:
 	// 1) the size of each page is pageSize 
 	// 2) the number of pages managed by the buffer manager is numPages;
@@ -58,7 +61,7 @@ public:
 	char * bufferLocForSinglePage();
 
 	// update LRU cache when you call get(), return the pagePtr should be evicted
-    pagePtr updateLRUCache(pagePtr);
+    void updateLRUCache(pageId, pagePtr);
 
     // update the available buffer queue, if free -> push available loc to queue
     void updateAvailableBufferLoc();

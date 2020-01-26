@@ -13,7 +13,7 @@ typedef shared_ptr<MyDB_Page> pagePtr;
 class MyDB_Page {
 public:
 
-    MyDB_Page();
+    MyDB_Page(MyDB_TablePtr, long, char *, string);
     ~MyDB_Page();
     string getPageId();
 
@@ -40,6 +40,8 @@ public:
     void setBuffer(char *);
 
     string getFileLoc();
+
+    void readFile();
 
 
 private:
