@@ -15,7 +15,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
     if (idToPage.find(pageId) == idToPage.end()) {
         pageBufferPosition = nextAvailablePosition();
         // pin->false anony->false
-        pagePtr = make_shared<MyDB_Page>(this, tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false);
+        pagePtr = make_shared<MyDB_Page>(this, tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false, i);
         idToPage[pageId] = pagePtr;
         // readFile from disk
         pagePtr->readFile();
@@ -35,10 +35,13 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
 
 MyDB_PageHandle MyDB_BufferManager :: getPage () {
     string pageId;
+    long pageNum;
     if (availableAnonyId.empty()) {
+        pageNum = (long) anonyTotalCount;
         pageId = "_" + to_string(anonyTotalCount);
         anonyTotalCount++;
     } else {
+        pageNum = (long) availableAnonyId[0];
         pageId = "_" + to_string(availableAnonyId[0]);
     }
 
@@ -47,7 +50,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
     if (idToPage.find(pageId) == idToPage.end()) {
         pageBufferPosition = nextAvailablePosition();
         // pin->false anony->true
-        pagePtr = make_shared<MyDB_Page>(this, tempFile, pageBufferPosition, pageId, false, true);
+        pagePtr = make_shared<MyDB_Page>(this, tempFile, pageBufferPosition, pageId, false, true, pageNum);
         idToPage[pageId] = pagePtr;
         // readFile from disk
         pagePtr->readFile();
@@ -88,15 +91,15 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
     this->numPages = numPages;
     this->tempFile = std::move(tempFile);
 
-    bufferPoll = (char *) malloc((numPages * pageSize) * sizeof(char));
+    bufferPool = (char *) malloc((this -> numPages * this -> pageSize) * sizeof(char));
 
-    if (!bufferPoll) {
+    if (!bufferPool) {
         perror("Failed to allocate memory.");
         abort();
     }
 
     for (int i = 0; i < numPages; i++) {
-        this -> availableBufferLoc.push(bufferPoll + i * pageSize);
+        this -> availableBufferLoc.push(bufferPool + i * pageSize);
     }
 
     this -> anonyTotalCount = 0;
@@ -105,7 +108,7 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
 }
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
-    free(bufferPoll);
+    free(bufferPool);
 }
 
 
@@ -136,6 +139,10 @@ void MyDB_BufferManager::updateAvailableBufferLoc() {
 
 void MyDB_BufferManager::safeExit() {
 
+}
+
+size_t MyDB_BufferManager::getPageSize() {
+    return this -> pageSize;
 }
 
 #endif
