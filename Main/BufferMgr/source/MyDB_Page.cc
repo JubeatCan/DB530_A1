@@ -61,16 +61,16 @@ MyDB_Page::MyDB_Page(const MyDB_BufferManager* bm, string& fileLoc, char * ramLo
     this->pageId = pageId;
     this->pin = pin;
     this->anonymous = anonymous;
-
+    this->bufferManager = bm;
     handlerCounter = 0;
     dirty = false;
 }
 
 void MyDB_Page::readFile() {
-//    int fileDescriptor;
-//    if (!anonymous) {
-//        fileDescriptor = open();
-//    }
+    int fileDescriptor;
+    if (!anonymous) {
+        fileDescriptor = open();
+    }
 }
 
 void MyDB_Page::writeFile() {

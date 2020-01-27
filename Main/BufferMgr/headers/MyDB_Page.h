@@ -61,7 +61,7 @@ private:
     // bufferLocation, if not null-ptr -> already in buffer
     char * bufferLoc;
     string fileLoc;
-
+    const MyDB_BufferManager* bufferManager;
 
 };
 
