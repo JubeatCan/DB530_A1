@@ -82,6 +82,8 @@ void MyDB_Page::readFile() {
 
     lseek(fileDescriptor, this -> bufferManager->getPageSize() * this -> pageNum, SEEK_SET);
     read(fileDescriptor, bufferLoc, this->bufferManager->getPageSize());
+
+    close(fileDescriptor);
 }
 
 void MyDB_Page::writeFile() {
@@ -93,6 +95,8 @@ void MyDB_Page::writeFile() {
 
     lseek(fileDescriptor, this -> bufferManager->getPageSize() * this -> pageNum, SEEK_SET);
     write(fileDescriptor, bufferLoc, this->bufferManager->getPageSize());
+
+    close(fileDescriptor);
 }
 
 void MyDB_Page::evictMe() {

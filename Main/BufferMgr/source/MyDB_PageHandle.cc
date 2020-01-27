@@ -3,6 +3,7 @@
 #define PAGE_HANDLE_C
 
 #include <memory>
+#include <iostream>
 #include "MyDB_PageHandle.h"
 
 void *MyDB_PageHandleBase :: getBytes () {
@@ -31,6 +32,7 @@ void MyDB_PageHandleBase :: unpinPage() {
 }
 
 MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
+//    cout << handlePagePtr->getNumberOfHandler() << endl;
     handlePagePtr->decreaseCounter();
     // Anon + ram -> removefromLRU  pagehandle#
     if (handlePagePtr->getNumberOfHandler() == 0) {
@@ -39,6 +41,7 @@ MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
         }
         else if (handlePagePtr->getAnonymous()){
             handlePagePtr->evictMe();
+            handlePagePtr->setBuffer(nullptr);
         }
     }
 }

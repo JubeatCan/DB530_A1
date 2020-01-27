@@ -109,6 +109,7 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
 }
 
 MyDB_BufferManager :: ~MyDB_BufferManager () {
+    safeExit();
     free(bufferPool);
 }
 
@@ -122,10 +123,12 @@ char *MyDB_BufferManager::nextAvailablePosition() {
     else {
         pagePtr nextEvictPage = lruManager->nextAvailablePage();
         nextPosition = nextEvictPage->getBuffer();
-        nextEvictPage->setBuffer(nullptr);
+
         if (nextEvictPage->getDirty()) {
             nextEvictPage->writeFile();
+            nextEvictPage->setDirty(false);
         }
+        nextEvictPage->setBuffer(nullptr);
     }
     return nextPosition;
 }
@@ -139,6 +142,7 @@ void MyDB_BufferManager::updateAvailableBufferLoc() {
 }
 
 void MyDB_BufferManager::safeExit() {
+    lruManager -> writeBackDirty();
 
 }
 

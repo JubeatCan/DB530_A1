@@ -28,6 +28,8 @@ public:
 
     pagePtr nextAvailablePage();
 
+    void writeBackDirty();
+
 private:
 
     list<pair<string, pagePtr>> LRUCache;

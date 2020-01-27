@@ -2,6 +2,9 @@
 #define LRU_MGR_C
 
 #include "MyDB_LRUManager.h"
+#include <iostream>
+
+using namespace std;
 
 MyDB_LRUManager::MyDB_LRUManager(int numPages) {
     this -> capacity = numPages;
@@ -45,7 +48,7 @@ void MyDB_LRUManager::evictSinglePage(const string& pageId) {
 }
 
 pagePtr MyDB_LRUManager::nextAvailablePage() {
-    for (auto it = LRUCache.begin(); it != LRUCache.end(); next(it, 1)) {
+    for (auto it = LRUCache.begin(); it != LRUCache.end(); it++) {
         if (!it->second->getPinStatus()) {
             return it->second;
         }
@@ -53,5 +56,15 @@ pagePtr MyDB_LRUManager::nextAvailablePage() {
     perror("Buffer is all pinned.");
     return pagePtr();
 }
+
+void MyDB_LRUManager::writeBackDirty() {
+    for(auto it = LRUCache.begin(); it != LRUCache.end(); it++) {
+        if (it -> second -> getDirty()) {
+            cout << it -> first << endl;
+            it -> second -> writeFile();
+        }
+    }
+}
+
 
 #endif
