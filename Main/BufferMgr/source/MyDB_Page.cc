@@ -2,6 +2,11 @@
 #define PAGE_C
 
 #include "MyDB_Page.h"
+#include <iostream>
+#include <unistd.h>
+#include <fcntl.h>
+
+using namespace std;
 
 MyDB_Page::~MyDB_Page() {
 
@@ -55,26 +60,38 @@ string MyDB_Page::getFileLoc() {
     return this -> fileLoc;
 }
 
-MyDB_Page::MyDB_Page(const MyDB_BufferManager* bm, string& fileLoc, char * ramLoc, string& pageId, bool pin, bool anonymous) {
+MyDB_Page::MyDB_Page(MyDB_BufferManager* bm, string& fileLoc, char * ramLoc, string& pageId, bool pin, bool anonymous, long pageNum) {
     this->fileLoc = fileLoc;
     this->bufferLoc = ramLoc;
     this->pageId = pageId;
     this->pin = pin;
     this->anonymous = anonymous;
     this->bufferManager = bm;
+    this->pageNum = pageNum;
     handlerCounter = 0;
     dirty = false;
 }
 
 void MyDB_Page::readFile() {
     int fileDescriptor;
-    if (!anonymous) {
-        fileDescriptor = open();
+    fileDescriptor = open(fileLoc.c_str(), O_FSYNC | O_RDONLY, 0666);
+    if (fileDescriptor < 0) {
+        perror("Cannot open file to read");
     }
+
+    lseek(fileDescriptor, this -> bufferManager->getPageSize() * this -> pageNum, SEEK_SET);
+    read(fileDescriptor, bufferLoc, this->bufferManager->getPageSize());
 }
 
 void MyDB_Page::writeFile() {
+    int fileDescriptor;
+    fileDescriptor = open(fileLoc.c_str(), O_FSYNC | O_CREAT | O_RDWR, 0666);
+    if (fileDescriptor < 0) {
+        perror("Cannot open file to write");
+    }
 
+    lseek(fileDescriptor, this -> bufferManager->getPageSize() * this -> pageNum, SEEK_SET);
+    write(fileDescriptor, bufferLoc, this->bufferManager->getPageSize());
 }
 
 #endif

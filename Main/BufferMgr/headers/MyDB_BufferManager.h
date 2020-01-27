@@ -73,6 +73,8 @@ public:
     // Write dirty page back when buffer manager is destroyed.
     void safeExit();
 
+    size_t getPageSize();
+
 private:
 
 	// YOUR STUFF HERE
@@ -83,7 +85,7 @@ private:
 	string tempFile;
 
 	//vector<char *> pageSpace;
-	char * bufferPoll;
+	char * bufferPool;
 
 	//unordered_map<char *, bool> isAvailable;
     //available bufferAddress, push all available buffer at the beginning
