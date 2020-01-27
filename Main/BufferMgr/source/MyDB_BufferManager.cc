@@ -133,10 +133,6 @@ char *MyDB_BufferManager::nextAvailablePosition() {
     return nextPosition;
 }
 
-//pagePtr MyDB_BufferManager::updateLRUCache(pagePtr) {
-//    return pagePtr();
-//}
-
 void MyDB_BufferManager::updateAvailableBufferLoc() {
 
 }

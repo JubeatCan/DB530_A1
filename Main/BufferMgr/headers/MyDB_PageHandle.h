@@ -45,12 +45,7 @@ public:
 	// unpin page
 	void unpinPage();
 
-
-
-
-
 private:
-
 	// YOUR CODE HERE
 	pagePtr handlePagePtr;
 };

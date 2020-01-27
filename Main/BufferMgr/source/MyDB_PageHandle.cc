@@ -2,8 +2,6 @@
 #ifndef PAGE_HANDLE_C
 #define PAGE_HANDLE_C
 
-#include <memory>
-#include <iostream>
 #include "MyDB_PageHandle.h"
 
 void *MyDB_PageHandleBase :: getBytes () {

@@ -35,8 +35,6 @@ public:
 
     bool getAnonymous();
 
-    void setAnonymous(bool);
-
     char * getBuffer();
 
     void setBuffer(char *);
