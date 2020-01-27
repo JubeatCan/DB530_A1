@@ -11,6 +11,8 @@
 using namespace std;
 
 class MyDB_LRUManager;
+class MyDB_Page;
+typedef shared_ptr<MyDB_Page> pagePtr;
 typedef shared_ptr<MyDB_LRUManager> LRUManager;
 
 class MyDB_LRUManager {

@@ -13,7 +13,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
     pagePtr pagePtr;
     char * pageBufferPosition;
     if (idToPage.find(pageId) == idToPage.end()) {
-        pageBufferPosition = nextAvailablePostion();
+        pageBufferPosition = nextAvailablePosition();
         // pin->false anony->false
         pagePtr = make_shared<MyDB_Page>(this, tablePtr->getStorageLoc(), pageBufferPosition, pageId, false, false);
         idToPage[pageId] = pagePtr;
@@ -24,7 +24,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage (MyDB_TablePtr tablePtr, long i) {
         pagePtr = idToPage.find(pageId)->second;
         // if buffered before
         if (pagePtr->getBuffer() == nullptr) {
-            pageBufferPosition = nextAvailablePostion();
+            pageBufferPosition = nextAvailablePosition();
             pagePtr->setBuffer(pageBufferPosition);
         }
     }
@@ -45,7 +45,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
     pagePtr pagePtr;
     char * pageBufferPosition;
     if (idToPage.find(pageId) == idToPage.end()) {
-        pageBufferPosition = nextAvailablePostion();
+        pageBufferPosition = nextAvailablePosition();
         // pin->false anony->true
         pagePtr = make_shared<MyDB_Page>(this, tempFile, pageBufferPosition, pageId, false, true);
         idToPage[pageId] = pagePtr;
@@ -56,7 +56,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
         pagePtr = idToPage.find(pageId)->second;
         // if buffered before
         if (pagePtr->getBuffer() == nullptr) {
-            pageBufferPosition = nextAvailablePostion();
+            pageBufferPosition = nextAvailablePosition();
             pagePtr->setBuffer(pageBufferPosition);
         }
     }
@@ -109,7 +109,7 @@ MyDB_BufferManager :: ~MyDB_BufferManager () {
 }
 
 
-char *MyDB_BufferManager::nextAvailablePostion() {
+char *MyDB_BufferManager::nextAvailablePosition() {
     char * nextPosition;
     if (!availableBufferLoc.empty()) {
          nextPosition = availableBufferLoc.front();

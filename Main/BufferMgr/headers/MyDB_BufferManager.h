@@ -12,6 +12,10 @@
 #include <unordered_map>
 
 using namespace std;
+class MyDB_PageHandleBase;
+class MyDB_LRUManager;
+typedef shared_ptr <MyDB_PageHandleBase> MyDB_PageHandle;
+typedef shared_ptr<MyDB_LRUManager> LRUManager;
 
 class MyDB_BufferManager {
 
@@ -43,7 +47,7 @@ public:
 	void unpin (MyDB_PageHandle unpinMe);
 
 	// find next available position
-	char * nextAvailablePostion() ;
+	char * nextAvailablePosition() ;
 
 	// creates an LRU buffer manager... params are as follows:
 	// 1) the size of each page is pageSize 
@@ -61,7 +65,7 @@ public:
 //	char * bufferLocForSinglePage();
 
 	// update LRU cache when you call get(), return the pagePtr should be evicted
-    void updateLRUCache(pageId, pagePtr);
+    void updateLRUCache(string, pagePtr);
 
     // update the available buffer queue, if free -> push available loc to queue
     void updateAvailableBufferLoc();

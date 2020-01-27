@@ -73,4 +73,8 @@ void MyDB_Page::readFile() {
 //    }
 }
 
+void MyDB_Page::writeFile() {
+
+}
+
 #endif

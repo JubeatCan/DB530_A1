@@ -3,12 +3,13 @@
 
 #include <string>
 #include <memory>
-#include <MyDB_Table.h>
+#include "MyDB_Table.h"
 #include "MyDB_BufferManager.h"
 
 using namespace std;
 
 class MyDB_Page;
+class MyDB_BufferManager;
 typedef shared_ptr<MyDB_Page> pagePtr;
 
 class MyDB_Page {

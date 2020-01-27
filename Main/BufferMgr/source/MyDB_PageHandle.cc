@@ -26,7 +26,7 @@ MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
 }
 
 MyDB_PageHandleBase::MyDB_PageHandleBase(pagePtr handlePagePtr) {
-    handlePagePtr = handlePagePtr;
+    this -> handlePagePtr = handlePagePtr;
     handlePagePtr->increaseCounter();
 }
 
