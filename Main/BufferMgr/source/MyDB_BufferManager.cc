@@ -119,7 +119,9 @@ char *MyDB_BufferManager::nextAvailablePosition() {
         pagePtr nextEvictPage = lruManager->nextAvailablePage();
         nextPosition = nextEvictPage->getBuffer();
         nextEvictPage->setBuffer(nullptr);
-        nextEvictPage->writeFile();
+        if (nextEvictPage->getDirty()) {
+            nextEvictPage->writeFile();
+        }
     }
     return nextPosition;
 }
