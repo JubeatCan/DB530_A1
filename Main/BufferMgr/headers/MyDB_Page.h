@@ -48,6 +48,12 @@ public:
     // write back to disk
     void writeFile();
 
+    void evictPage();
+
+    void bufferMe();
+
+    void lruUpdateToHead();
+
 
 
 private:

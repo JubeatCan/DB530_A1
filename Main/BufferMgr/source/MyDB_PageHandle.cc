@@ -6,11 +6,20 @@
 #include "MyDB_PageHandle.h"
 
 void *MyDB_PageHandleBase :: getBytes () {
-	return nullptr;
+	char * bufferLoc = handlePagePtr->getBuffer();
+	if (bufferLoc == nullptr) {
+        handlePagePtr->bufferMe();
+        bufferLoc = handlePagePtr->getBuffer();
+	}
+	//update lru
+	handlePagePtr->lruUpdateToHead();
+    return bufferLoc;
 }
 
 void MyDB_PageHandleBase :: wroteBytes () {
-
+    //update lru
+    handlePagePtr->lruUpdateToHead();
+    handlePagePtr->setDirty(true);
 }
 
 void MyDB_PageHandleBase :: pinPage() {
@@ -23,6 +32,16 @@ void MyDB_PageHandleBase :: unpinPage() {
 
 MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
     handlePagePtr->decreaseCounter();
+    // Anon + ram -> removefromLRU  pagehandle#
+    if (handlePagePtr->getNumberOfHandler() == 0) {
+        if (!handlePagePtr->getAnonymous() && handlePagePtr->getPinStatus()) {
+            handlePagePtr->setPinStatus(false);
+        }
+        else if (handlePagePtr->getAnonymous()){
+            handlePagePtr->writeFile();
+            handlePagePtr->evictPage();
+        }
+    }
 }
 
 MyDB_PageHandleBase::MyDB_PageHandleBase(pagePtr handlePagePtr) {
