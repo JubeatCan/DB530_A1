@@ -5,6 +5,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <fcntl.h>
+#include <memory>
 
 using namespace std;
 
@@ -93,5 +94,27 @@ void MyDB_Page::writeFile() {
     lseek(fileDescriptor, this -> bufferManager->getPageSize() * this -> pageNum, SEEK_SET);
     write(fileDescriptor, bufferLoc, this->bufferManager->getPageSize());
 }
+
+void MyDB_Page::evictMe() {
+    bufferManager->getLruManager()->evictSinglePage(pageId);
+    writeFile();
+    if (bufferLoc != nullptr)
+        bufferManager->addAvailableBufferLoc(bufferLoc);
+    if (anonymous) {
+        bufferManager->addAvailableAnonyId(pageNum);
+    }
+}
+
+void MyDB_Page::bufferMe() {
+    this->bufferLoc = bufferManager->nextAvailablePosition();
+    this->readFile();
+    this->bufferManager->getLruManager()->update(pageId, shared_from_this());
+    this->setDirty(false);
+}
+
+void MyDB_Page::lruUpdateToHead() {
+    this->bufferManager->getLruManager()->update(pageId, shared_from_this());
+}
+
 
 #endif

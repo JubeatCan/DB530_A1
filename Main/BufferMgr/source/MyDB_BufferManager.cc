@@ -43,6 +43,7 @@ MyDB_PageHandle MyDB_BufferManager :: getPage () {
     } else {
         pageNum = (long) availableAnonyId[0];
         pageId = "_" + to_string(availableAnonyId[0]);
+        availableAnonyId.erase(availableAnonyId.begin());
     }
 
     pagePtr pagePtr;
@@ -143,6 +144,18 @@ void MyDB_BufferManager::safeExit() {
 
 size_t MyDB_BufferManager::getPageSize() {
     return this -> pageSize;
+}
+
+LRUManager MyDB_BufferManager::getLruManager() {
+    return lruManager;
+}
+
+void MyDB_BufferManager::addAvailableBufferLoc(char * newAvailableBuf) {
+    availableBufferLoc.push(newAvailableBuf);
+}
+
+void MyDB_BufferManager::addAvailableAnonyId(long newAvailableId) {
+    availableAnonyId.push_back(newAvailableId);
 }
 
 #endif

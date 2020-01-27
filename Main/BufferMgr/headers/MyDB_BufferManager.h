@@ -75,6 +75,12 @@ public:
 
     size_t getPageSize();
 
+    LRUManager getLruManager();
+
+    void addAvailableBufferLoc(char *);
+
+    void addAvailableAnonyId(long);
+
 private:
 
 	// YOUR STUFF HERE

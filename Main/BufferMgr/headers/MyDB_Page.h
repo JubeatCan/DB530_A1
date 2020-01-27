@@ -12,7 +12,7 @@ class MyDB_Page;
 class MyDB_BufferManager;
 typedef shared_ptr<MyDB_Page> pagePtr;
 
-class MyDB_Page {
+class MyDB_Page : public enable_shared_from_this<MyDB_Page>{
 public:
 
     MyDB_Page(MyDB_BufferManager *, string &, char *, string &, bool, bool, long);
@@ -48,7 +48,7 @@ public:
     // write back to disk
     void writeFile();
 
-    void evictPage();
+    void evictMe();
 
     void bufferMe();
 
