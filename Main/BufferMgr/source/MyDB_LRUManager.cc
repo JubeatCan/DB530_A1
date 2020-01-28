@@ -58,7 +58,7 @@ pagePtr MyDB_LRUManager::nextAvailablePage() {
 }
 
 void MyDB_LRUManager::writeBackDirty() {
-    for(auto it = LRUCache.begin(); it != LRUCache.end(); it++) {
+    for (auto it = LRUCache.begin(); it != LRUCache.end(); it++) {
         if (it -> second -> getDirty()) {
             cout << it -> first << endl;
             it -> second -> writeFile();

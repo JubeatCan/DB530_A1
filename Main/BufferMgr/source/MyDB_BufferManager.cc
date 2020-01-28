@@ -5,6 +5,7 @@
 #include "MyDB_BufferManager.h"
 #include <string>
 #include <utility>
+#include <stdio.h>
 
 using namespace std;
 
@@ -111,6 +112,7 @@ MyDB_BufferManager :: MyDB_BufferManager (size_t pageSize, size_t numPages, stri
 MyDB_BufferManager :: ~MyDB_BufferManager () {
     safeExit();
     free(bufferPool);
+    remove(this -> tempFile.c_str());
 }
 
 
