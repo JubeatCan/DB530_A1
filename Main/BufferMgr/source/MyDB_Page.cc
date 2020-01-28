@@ -2,16 +2,13 @@
 #define PAGE_C
 
 #include "MyDB_Page.h"
-#include <iostream>
 #include <unistd.h>
 #include <fcntl.h>
 #include <memory>
 
 using namespace std;
 
-MyDB_Page::~MyDB_Page() {
-
-}
+MyDB_Page::~MyDB_Page() = default;
 
 string MyDB_Page::getPageId() {
     return this -> pageId;
