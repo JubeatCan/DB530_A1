@@ -38,6 +38,7 @@ MyDB_PageHandleBase :: ~MyDB_PageHandleBase () {
             handlePagePtr->setPinStatus(false);
         }
         else if (handlePagePtr->getAnonymous() && handlePagePtr->getBuffer() != nullptr){
+            handlePagePtr->setPinStatus(false);
             handlePagePtr->evictMe();
             handlePagePtr->setBuffer(nullptr);
         }

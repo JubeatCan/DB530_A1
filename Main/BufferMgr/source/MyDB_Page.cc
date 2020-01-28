@@ -75,7 +75,7 @@ MyDB_Page::MyDB_Page(MyDB_BufferManager* bm, string& fileLoc, char * ramLoc, str
 
 void MyDB_Page::readFile() {
     int fileDescriptor;
-    fileDescriptor = open(fileLoc.c_str(), O_FSYNC | O_RDONLY, 0666);
+    fileDescriptor = open(fileLoc.c_str(), O_FSYNC | O_RDONLY | O_CREAT, 0666);
     if (fileDescriptor < 0) {
         perror("Cannot open file to read");
     }
@@ -101,7 +101,9 @@ void MyDB_Page::writeFile() {
 
 void MyDB_Page::evictMe() {
     bufferManager->getLruManager()->evictSinglePage(pageId);
-    writeFile();
+    if (!this -> anonymous) {
+        writeFile();
+    }
     if (bufferLoc != nullptr)
         bufferManager->addAvailableBufferLoc(bufferLoc);
     if (anonymous) {
